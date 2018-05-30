@@ -32,4 +32,26 @@ class ActivityTest < Minitest::Test
     assert_equal 50, activity.total_cost 
   end
 
+  def test_fair_share
+    activity = Activity.new("camping", 20, 10)
+
+    activity.add_participant("Andrew", 20)
+    activity.add_participant("JR", 20)
+
+    assert_equal 20, activity.fair_share
+  end
+
+  def test_amount_owed
+    activity = Activity.new("camping", 20, 10)
+
+    activity.add_participant("Andrew", 15)
+    activity.add_participant("JR", 25)
+
+    actual = activity.amount_owed
+    expected = {"Andrew" => 5, "JR" => -5}
+
+    assert_equal expected, actual
+
+  end
+
 end

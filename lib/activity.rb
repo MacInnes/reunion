@@ -24,4 +24,16 @@ class Activity
     @base_cost + @cost_per_participant * @participants.length
   end
 
+  def fair_share
+    total_cost / @participants.length
+  end
+
+  def amount_owed
+    output = {}
+    @participants.each do |participant|
+      output[participant[:name]] = fair_share - participant[:paid]
+    end
+    output
+  end
+
 end
