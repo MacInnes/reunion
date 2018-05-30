@@ -1,0 +1,36 @@
+require "erb"
+require "./lib/reunion"
+require "./lib/activity"
+
+camping = Activity.new("Camping", 10, 10)
+bbq = Activity.new("BBQ", 20, 20)
+
+camping.add_participant("Andrew", 30)
+camping.add_participant("JR", 10)
+bbq.add_participant("Andrew", 30)
+bbq.add_participant("JR", 40)
+
+reunion = Reunion.new("Conifer", [camping, bbq])
+
+template = %{
+  <html>
+    <title> Welcome to the <%= @location %> reunion! </title>
+    <body>
+      <div>
+        <h3> Here are the activities: </h3>
+          <ul>
+            <% @activities.each do |activity| %>
+              <li> <%= activity.name %> has <%= activity.participants.length %> attending </li>
+            <% end %>
+          </ul>
+      </div>
+      <div>
+        <h3> Here's who owes what: </h3>
+      </div>
+    </body>
+  </html>
+}
+
+rhtml = ERB.new(template)
+
+rhtml.run(reunion)
